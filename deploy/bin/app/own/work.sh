@@ -6,7 +6,7 @@
 # current directory where from script was launched (to return to in the end)
 DIR_CUR="$PWD"
 # Root directory (set before or relative to the current shell script)
-DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../../../" && pwd`}
+DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../../../../" && pwd`}
 
 
 
@@ -60,7 +60,7 @@ composer config repositories.local '{"type": "artifact", "url": "../deploy/repo/
 
 
 echo "Add own modules"
-composer require flancer32/mage2_ext_login_as   # public module from Packagist
+composer require flancer32/mage2_ext_login_as:dev-master   # public module from Packagist
 # TODO: public/private module from GitHub
 # TODO: zipped module from local repository
 

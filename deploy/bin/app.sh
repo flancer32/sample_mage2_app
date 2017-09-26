@@ -67,30 +67,27 @@ DIR_LINK_LOG=${DIR_LINK_LOG}
 
 
 ## =========================================================================
-#   Deploy custom modules with Composer.
+#   Deploy custom modules with Composer (according to deploy mode).
 ## =========================================================================
-. ${DIR_DEPLOY}/bin/app/own.${MODE}.sh
+. ${DIR_DEPLOY}/bin/app/own/${MODE}.sh
 
 
 
 ## =========================================================================
 #   Setup database for the application.
 ## =========================================================================
-. ${DIR_DEPLOY}/bin/app/db.sh
-
-
-
-
-## =========================================================================
-#   Setup filesystem.
-## =========================================================================
-
-
-
+if [ "${OPT_SKIP_DB}" = "yes" ]; then
+    echo ""
+    echo "************************************************************************"
+    echo "  Database initialization is skipped."
+    echo "************************************************************************"
+else
+    . ${DIR_DEPLOY}/bin/app/db/${MODE}.sh
+fi
 
 
 
 echo ""
 echo "************************************************************************"
-echo "  Deployment for web application is complete."
+echo "  Web application deployment is complete."
 echo "************************************************************************"

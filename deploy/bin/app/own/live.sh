@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 ## *************************************************************************
-#   Init database.
+#   Configure composer.json and install own modules (work mode)
 ## *************************************************************************
 
 # current directory where from script was launched (to return to in the end)
 DIR_CUR="$PWD"
 # Root directory (set before or relative to the current shell script)
-DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../../../" && pwd`}
+DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../../../../" && pwd`}
 
 
 
@@ -42,36 +42,30 @@ fi
 ## =========================================================================
 
 # Folders shortcuts & other vars
+DIR_DEPLOY=${DIR_ROOT}/deploy       # folder with deployment templates
 DIR_MAGE=${DIR_ROOT}/${MODE}        # root folder for Magento application
-OPT_SKIP_DB=${OPT_SKIP_DB}
 
 
+echo ""
+echo "************************************************************************"
+echo "  Custom modules deployment."
+echo "************************************************************************"
+cd ${DIR_MAGE}
 
-if [ "${OPT_SKIP_DB}" = "yes" ]; then
+echo "Configure composer.json"
+composer config minimum-stability dev
 
-
-    echo ""
-    echo "************************************************************************"
-    echo "  Database initialization is skipped."
-    echo "************************************************************************"
-
-
-else
-
-
-    echo ""
-    echo "************************************************************************"
-    echo "  Database initialization."
-    echo "************************************************************************"
-    cd ${DIR_MAGE}
+echo "Add custom repositories"
+composer config repositories.local '{"type": "artifact", "url": "../deploy/repo/"}'  # relative to root Mage dir
 
 
+echo "Add own modules"
+composer require flancer32/mage2_ext_login_as   # public module from Packagist
+# TODO: public/private module from GitHub
+# TODO: zipped module from local repository
 
-    echo ""
-    echo "************************************************************************"
-    echo "  Database initialization is completed."
-    echo "************************************************************************"
-
-
-fi
+echo ""
+echo "************************************************************************"
+echo "  Custom modules are deployed."
+echo "************************************************************************"
 cd ${DIR_CUR}
