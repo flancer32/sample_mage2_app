@@ -1,17 +1,12 @@
 #!/usr/bin/env bash
 ## *************************************************************************
-#   Deploy web application (Mage, DB, modules, patches, ...).
-#
-#       This is friendly user script, not user friendly
-#       There are no protection from mistakes.
-#       Use it if you know how it works.
+#   Configure composer.json and install own modules (work mode)
 ## *************************************************************************
 
 # current directory where from script was launched (to return to in the end)
 DIR_CUR="$PWD"
-# Root directory (relative to the current shell script, not to the execution point)
-# http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02
-DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../../" && pwd`}
+# Root directory (set before or relative to the current shell script)
+DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../../../" && pwd`}
 
 
 
@@ -20,7 +15,7 @@ DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../../" && pwd`}
 ## *************************************************************************
 MODE=${MODE}
 IS_CHAINED="yes"       # 'yes' - this script is launched in chain with other scripts, 'no'- standalone launch;
-if [ -z "$MODE" ]; then
+if [ -z "${MODE}" ]; then
     MODE="work"
     IS_CHAINED="no"
 fi
@@ -46,51 +41,31 @@ fi
 #   Working variables and hardcoded configuration.
 ## =========================================================================
 
-# Folders shortcuts
+# Folders shortcuts & other vars
 DIR_DEPLOY=${DIR_ROOT}/deploy       # folder with deployment templates
 DIR_MAGE=${DIR_ROOT}/${MODE}        # root folder for Magento application
 
 
-# shortcuts to external vars (see ${FILE_CFG})
-LOCAL_OWNER=${LOCAL_OWNER}
-LOCAL_GROUP=${LOCAL_GROUP}
-DIR_LINK_MEDIA=${DIR_LINK_MEDIA}
-DIR_LINK_LOG=${DIR_LINK_LOG}
+echo ""
+echo "************************************************************************"
+echo "  Custom modules deployment."
+echo "************************************************************************"
+cd ${DIR_MAGE}
+
+echo "Configure composer.json"
+composer config minimum-stability dev
+
+echo "Add custom repositories"
+composer config repositories.local '{"type": "artifact", "url": "../deploy/repo/"}'  # relative to root Mage dir
 
 
-
-## =========================================================================
-#   Deploy Magento 2 itself.
-## =========================================================================
-. ${DIR_DEPLOY}/bin/app/mage.sh
-
-
-
-## =========================================================================
-#   Deploy custom modules with Composer.
-## =========================================================================
-. ${DIR_DEPLOY}/bin/app/own.${MODE}.sh
-
-
-
-## =========================================================================
-#   Setup database for the application.
-## =========================================================================
-. ${DIR_DEPLOY}/bin/app/db.sh
-
-
-
-
-## =========================================================================
-#   Setup filesystem.
-## =========================================================================
-
-
-
-
-
+echo "Add own modules"
+composer require flancer32/mage2_ext_login_as   # public module from Packagist
+# TODO: public/private module from GitHub
+# TODO: zipped module from local repository
 
 echo ""
 echo "************************************************************************"
-echo "  Deployment for web application is complete."
+echo "  Custom modules are deployed."
 echo "************************************************************************"
+cd ${DIR_CUR}

@@ -28,14 +28,14 @@ MODE_WORK=work
 ## *************************************************************************
 #   Parse input options
 ## *************************************************************************
-while getopts "d:r:hSDM" OPTNAME
+while getopts "d:m:hSDM" OPTNAME
   do
     case "${OPTNAME}" in
       "d")
         OPT_MODE=${OPTARG}
         echo "Application deployment mode '${OPT_MODE}' is specified"
         ;;
-      "r")
+      "m")
         OPT_DEPLOY=${OPTARG}
         echo "Magento deployment mode '${OPT_DEPLOY}' is specified"
         ;;
@@ -70,7 +70,7 @@ then
     echo ""
     echo "Where:"
     echo "  -d: Web application deployment mode ([work|live], default: work);"
-    echo "  -r: Magento 2 itself deployment mode ([developer|production], default: developer);"
+    echo "  -m: Magento 2 itself deployment mode ([developer|production], default: developer);"
     echo "  -S: Skip database initialization (Web UI should be used to init DB);"
     echo "  -D: Clone database from 'live' instance during deployment;"
     echo "  -M: Clone media files from 'live' instance during deployment;"
@@ -147,4 +147,7 @@ cd ${DIR_ROOT}
 
 echo ""
 echo "Application deployment in '${OPT_MODE}' mode  is done."
+echo "  Frontend: ${BASE_URL}"
+echo "  Backend:  ${BASE_URL}/${BACKEND_FRONTNAME}"
+echo ""
 cd ${DIR_CUR}

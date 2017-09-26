@@ -14,23 +14,25 @@ DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../../../" && pwd`}
 #   Validate deployment mode and load configuration.
 ## *************************************************************************
 MODE=${MODE}
+IS_CHAINED="yes"       # 'yes' - this script is launched in chain with other scripts, 'no'- standalone launch;
 if [ -z "${MODE}" ]; then
-    MODE=work
-    echo "Default mode '${MODE}' is used for Magento 2 code base deployment."
-else
-    echo "Magento 2 code base deployment mode: ${MODE}"
+    MODE="work"
+    IS_CHAINED="no"
 fi
 
 # check configuration file exists and load deployment config (db connection, Magento installation opts, etc.).
 FILE_CFG=${DIR_ROOT}/cfg.${MODE}.sh
-if [ -f "${FILE_CFG}" ]
-then
-    echo "There is deployment configuration in ${FILE_CFG}."
-    . ${FILE_CFG}
+if [ -f "${FILE_CFG}" ]; then
+    if [ "${IS_CHAINED}" = "no" ]; then    # this is standalone launch, load deployment configuration;
+        echo "There is deployment configuration in ${FILE_CFG}."
+        . ${FILE_CFG}
+    fi
 else
-    echo "There is no expected configuration in ${FILE_CFG}. Aborting..."
-    cd ${DIR_CUR}
-    exit 255
+    if [ "${IS_CHAINED}" = "no" ]; then    # this is standalone launch w/o deployment configuration - exit;
+        echo "There is no expected configuration in ${FILE_CFG}. Aborting..."
+        cd ${DIR_CUR}
+        exit 255
+    fi
 fi
 
 
@@ -52,7 +54,7 @@ MODE_WORK="work"
 
 # (re)create root folder for application deployment
 if [ -d "${DIR_MAGE}" ]; then
-    if [ "$MODE"=="${MODE_WORK}" ]; then
+    if [ "${MODE}" = "${MODE_WORK}" ]; then
         echo "Re-create '${DIR_MAGE}' folder."
         rm -fr ${DIR_MAGE}    # remove Magento root folder
         mkdir -p ${DIR_MAGE}  # ... then create it

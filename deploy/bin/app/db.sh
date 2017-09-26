@@ -1,17 +1,12 @@
 #!/usr/bin/env bash
 ## *************************************************************************
-#   Deployment finalization (filesystem permissions)
-#
-#       This is friendly user script, not user friendly
-#       There are no protection from mistakes.
-#       Use it if you know how it works.
+#   Init database.
 ## *************************************************************************
 
 # current directory where from script was launched (to return to in the end)
 DIR_CUR="$PWD"
-# Root directory (relative to the current shell script, not to the execution point)
-# http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02
-DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../../" && pwd`}
+# Root directory (set before or relative to the current shell script)
+DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../../../" && pwd`}
 
 
 
@@ -46,39 +41,37 @@ fi
 #   Working variables and hardcoded configuration.
 ## =========================================================================
 
-# Folders shortcuts
-DIR_DEPLOY=${DIR_ROOT}/deploy       # folder with deployment templates
+# Folders shortcuts & other vars
 DIR_MAGE=${DIR_ROOT}/${MODE}        # root folder for Magento application
-
-
-# shortcuts to external vars (see ${FILE_CFG})
-LOCAL_OWNER=${LOCAL_OWNER}
-LOCAL_GROUP=${LOCAL_GROUP}
-DIR_LINK_MEDIA=${DIR_LINK_MEDIA}
-DIR_LINK_LOG=${DIR_LINK_LOG}
+OPT_SKIP_DB=${OPT_SKIP_DB}
 
 
 
-## =========================================================================
-#   Magento 2 deployment with Composer.
-## =========================================================================
+if [ "${OPT_SKIP_DB}" = "yes" ]; then
 
-# Finalize job
-#
-echo ""
-if [ -z "${LOCAL_OWNER}" ] || [ -z "${LOCAL_GROUP}" ] || [ -z "${DIR_MAGE}" ]; then
-    echo "Skip file system ownership and permissions setup."
+
+    echo ""
+    echo "************************************************************************"
+    echo "  Database initialization is skipped."
+    echo "************************************************************************"
+
+
 else
-    echo "Set file system ownership (${LOCAL_OWNER}:${LOCAL_GROUP}) and permissions to '${DIR_MAGE}'..."
-    chown -R ${LOCAL_OWNER}:${LOCAL_GROUP} ${DIR_MAGE}
-    # setup filesystem permissions
-    find ${DIR_MAGE} -type d -exec chmod 770 {} \;
-    find ${DIR_MAGE} -type f -exec chmod 660 {} \;
+
+
+    echo ""
+    echo "************************************************************************"
+    echo "  Database initialization."
+    echo "************************************************************************"
+    cd ${DIR_MAGE}
+
+
+
+    echo ""
+    echo "************************************************************************"
+    echo "  Database initialization is completed."
+    echo "************************************************************************"
+
+
 fi
-
-
-
-echo ""
-echo "************************************************************************"
-echo "  Deployment finalization is complete."
-echo "************************************************************************"
+cd ${DIR_CUR}
