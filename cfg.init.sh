@@ -4,18 +4,6 @@
 LOCAL_OWNER="owner"
 LOCAL_GROUP="www-data"
 
-# paths to folders with media & logs
-DIR_LINK_MEDIA=
-DIR_LINK_LOG=
-
-# roots for backup, media and logs (for 'live' mode only)
-DIR_BAK_DB=
-DIR_BAK_MEDIA=
-
-# cloning configuration - ssh access and paths (for 'work' mode only)
-SSH_URL=
-SSH_ROOT=
-
 # Magento 2 installation configuration
 # see http://devdocs.magento.com/guides/v2.0/install-gde/install/cli/install-cli-install.html#instgde-install-cli-magento
 ADMIN_EMAIL="admin@store.com"

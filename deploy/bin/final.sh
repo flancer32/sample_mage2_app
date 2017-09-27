@@ -62,7 +62,9 @@ DIR_LINK_LOG=${DIR_LINK_LOG}
 ## =========================================================================
 #   Mode specific finalization.
 ## =========================================================================
+if [ "${OPT_SKIP_DB}" = "no" ]; then
 . ${DIR_DEPLOY}/bin/app/final/${MODE}.sh
+fi
 
 
 
