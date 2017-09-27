@@ -14,6 +14,7 @@ DIR_ROOT="$( cd "$( dirname "$0" )" && pwd )"
 # default configuration
 OPT_CLI_HELP="no"               # -h print out help
 OPT_SKIP_DB="no"                # -S
+OPT_USE_EXIST_DB="no"           # -E
 OPT_CLONE_DB="no"               # -D
 OPT_CLONE_MEDIA="no"            # -M
 OPT_DEPLOY=developer            # -r developer|production
@@ -28,34 +29,41 @@ MODE_WORK=work
 ## *************************************************************************
 #   Parse input options
 ## *************************************************************************
-while getopts "d:m:hSDM" OPTNAME
+echo ""
+while getopts "d:hm:DEMS" OPTNAME
   do
     case "${OPTNAME}" in
       "d")
         OPT_MODE=${OPTARG}
-        echo "Application deployment mode '${OPT_MODE}' is specified"
-        ;;
-      "m")
-        OPT_DEPLOY=${OPTARG}
-        echo "Magento deployment mode '${OPT_DEPLOY}' is specified"
+        echo "Application deployment mode '${OPT_MODE}' is specified."
         ;;
       "h")
         OPT_CLI_HELP="yes"
         ;;
-      "S")
-        OPT_SKIP_DB="yes"
-        echo "Database initialization will be skipped (use Web UI to init DB)."
+      "m")
+        OPT_DEPLOY=${OPTARG}
+        echo "Magento deployment mode '${OPT_DEPLOY}' is specified."
         ;;
       "D")
         OPT_CLONE_DB="yes"
         echo "Database cloning is requested."
         ;;
+      "E")
+        OPT_USE_EXIST_DB="yes"
+        echo "Existing DB will be used in 'work' mode)."
+        ;;
       "M")
         OPT_CLONE_MEDIA="yes"
         echo "Media cloning is requested."
         ;;
+      "S")
+        OPT_SKIP_DB="yes"
+        echo "Database initialization will be skipped (use Web UI to create DB)."
+        ;;
     esac
   done
+
+echo""
 
 
 
@@ -70,11 +78,12 @@ then
     echo ""
     echo "Where:"
     echo "  -d: Web application deployment mode ([work|live], default: work);"
-    echo "  -m: Magento 2 itself deployment mode ([developer|production], default: developer);"
-    echo "  -S: Skip database initialization (Web UI should be used to init DB);"
-    echo "  -D: Clone database from 'live' instance during deployment;"
-    echo "  -M: Clone media files from 'live' instance during deployment;"
     echo "  -h: This output;"
+    echo "  -m: Magento 2 itself deployment mode ([developer|production], default: developer);"
+    echo "  -D: Clone database from 'live' instance during deployment;"
+    echo "  -E: Existing DB will be used in 'work' mode);"
+    echo "  -M: Clone media files from 'live' instance during deployment;"
+    echo "  -S: Skip database initialization (Web UI should be used to init DB);"
     exit
 fi
 

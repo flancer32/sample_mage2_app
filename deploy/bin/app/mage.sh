@@ -73,7 +73,7 @@ echo "Magento will be installed into the '${DIR_MAGE}' folder."
 
 echo ""
 echo "Create M2 CE project in '${DIR_MAGE}' using composer"
-composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.2.0-rc30 ${DIR_MAGE}
+composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.2.0 ${DIR_MAGE}
 
 
 

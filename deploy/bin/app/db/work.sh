@@ -44,7 +44,7 @@ fi
 # Folders shortcuts & other vars
 DIR_MAGE=${DIR_ROOT}/${MODE}        # root folder for Magento application
 
-OPT_SKIP_DB=${OPT_SKIP_DB}
+OPT_USE_EXIST_DB=${OPT_USE_EXIST_DB}
 
 ADMIN_EMAIL=${ADMIN_EMAIL}
 ADMIN_FIRSTNAME=${ADMIN_FIRSTNAME}
@@ -75,39 +75,57 @@ echo "  Database initialization."
 echo "************************************************************************"
 cd ${DIR_MAGE}
 
+if [ "${OPT_USE_EXIST_DB}" = "no" ]; then
 
-echo "Drop DB '${DB_NAME}'."
-mysqladmin -f -u"${DB_USER}" -p"${DB_PASS}" -h"${DB_HOST}" drop "${DB_NAME}"
-echo "Create DB '${DB_NAME}'."
-mysqladmin -f -u"${DB_USER}" -p"${DB_PASS}" -h"${DB_HOST}" create "${DB_NAME}"
-echo "DB '${DB_NAME}' is created."
+    echo "Drop DB '${DB_NAME}'."
+    mysqladmin -f -u"${DB_USER}" -p"${DB_PASS}" -h"${DB_HOST}" drop "${DB_NAME}"
+    echo "Create DB '${DB_NAME}'."
+    mysqladmin -f -u"${DB_USER}" -p"${DB_PASS}" -h"${DB_HOST}" create "${DB_NAME}"
+    echo "DB '${DB_NAME}' is created."
 
-# Full list of the available options:
-# http://devdocs.magento.com/guides/v2.0/install-gde/install/cli/install-cli-install.html#instgde-install-cli-magento
-php ${DIR_MAGE}/bin/magento setup:install  \
---admin-firstname="${ADMIN_FIRSTNAME}" \
---admin-lastname="${ADMIN_LASTNAME}" \
---admin-email="${ADMIN_EMAIL}" \
---admin-user="${ADMIN_USER}" \
---admin-password="${ADMIN_PASSWORD}" \
---base-url="${BASE_URL}" \
---backend-frontname="${BACKEND_FRONTNAME}" \
---key="${SECURE_KEY}" \
---language="${LANGUAGE}" \
---currency="${CURRENCY}" \
---timezone="${TIMEZONE}" \
---use-rewrites="${USE_REWRITES}" \
---use-secure="${USE_SECURE}" \
---use-secure-admin="${USE_SECURE_ADMIN}" \
---admin-use-security-key="${ADMIN_USE_SECURITY_KEY}" \
---session-save="${SESSION_SAVE}" \
---cleanup-database \
---db-host="${DB_HOST}" \
---db-name="${DB_NAME}" \
---db-user="${DB_USER}" \
---db-password="${DB_PASS}"
+    # Full list of the available options:
+    # http://devdocs.magento.com/guides/v2.0/install-gde/install/cli/install-cli-install.html#instgde-install-cli-magento
+    php ${DIR_MAGE}/bin/magento setup:install  \
+    --admin-firstname="${ADMIN_FIRSTNAME}" \
+    --admin-lastname="${ADMIN_LASTNAME}" \
+    --admin-email="${ADMIN_EMAIL}" \
+    --admin-user="${ADMIN_USER}" \
+    --admin-password="${ADMIN_PASSWORD}" \
+    --base-url="${BASE_URL}" \
+    --backend-frontname="${BACKEND_FRONTNAME}" \
+    --key="${SECURE_KEY}" \
+    --language="${LANGUAGE}" \
+    --currency="${CURRENCY}" \
+    --timezone="${TIMEZONE}" \
+    --use-rewrites="${USE_REWRITES}" \
+    --use-secure="${USE_SECURE}" \
+    --use-secure-admin="${USE_SECURE_ADMIN}" \
+    --admin-use-security-key="${ADMIN_USE_SECURITY_KEY}" \
+    --session-save="${SESSION_SAVE}" \
+    --cleanup-database \
+    --db-host="${DB_HOST}" \
+    --db-name="${DB_NAME}" \
+    --db-user="${DB_USER}" \
+    --db-password="${DB_PASS}"
 
+else
 
+    echo "Setup Magento to use existing DB (${DB_NAME}@${DB_HOST} as ${DB_USER})."
+    php ${DIR_MAGE}/bin/magento setup:install  \
+    --admin-firstname="${ADMIN_FIRSTNAME}" \
+    --admin-lastname="${ADMIN_LASTNAME}" \
+    --admin-email="${ADMIN_EMAIL}" \
+    --admin-user="${ADMIN_USER}" \
+    --admin-password="${ADMIN_PASSWORD}" \
+    --backend-frontname="${BACKEND_FRONTNAME}" \
+    --key="${SECURE_KEY}" \
+    --session-save="${SESSION_SAVE}" \
+    --db-host="${DB_HOST}" \
+    --db-name="${DB_NAME}" \
+    --db-user="${DB_USER}" \
+    --db-password="${DB_PASS}"
+
+fi
 
 echo ""
 echo "************************************************************************"
