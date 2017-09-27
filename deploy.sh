@@ -17,7 +17,7 @@ OPT_SKIP_DB="no"                # -S
 OPT_USE_EXIST_DB="no"           # -E
 OPT_CLONE_DB="no"               # -D
 OPT_CLONE_MEDIA="no"            # -M
-OPT_DEPLOY=developer            # -r developer|production
+OPT_MAGE_RUN=developer          # -m developer|production
 OPT_MODE=work                   # -d work|live
 
 # Available deployment modes
@@ -41,8 +41,8 @@ while getopts "d:hm:DEMS" OPTNAME
         OPT_CLI_HELP="yes"
         ;;
       "m")
-        OPT_DEPLOY=${OPTARG}
-        echo "Magento deployment mode '${OPT_DEPLOY}' is specified."
+        OPT_MAGE_RUN=${OPTARG}
+        echo "Magento deployment mode '${OPT_MAGE_RUN}' is specified."
         ;;
       "D")
         OPT_CLONE_DB="yes"
@@ -50,7 +50,7 @@ while getopts "d:hm:DEMS" OPTNAME
         ;;
       "E")
         OPT_USE_EXIST_DB="yes"
-        echo "Existing DB will be used in 'work' mode)."
+        echo "Existing DB will be used in 'work' mode."
         ;;
       "M")
         OPT_CLONE_MEDIA="yes"
@@ -70,11 +70,10 @@ echo""
 ## *************************************************************************
 #   Print out help
 ## *************************************************************************
-if [ "${OPT_CLI_HELP}" = "yes" ]
-then
+if [ "${OPT_CLI_HELP}" = "yes" ]; then
     echo "Magento2 application deployment script."
     echo ""
-    echo "Usage: sh deploy.sh -d [work|live] -r [developer|production] -S -D -M"
+    echo "Usage: sh deploy.sh -d [work|live] -h -m [developer|production] -D -E -M -S"
     echo ""
     echo "Where:"
     echo "  -d: Web application deployment mode ([work|live], default: work);"
@@ -115,10 +114,6 @@ fi
 ## *************************************************************************
 #   Deployment process itself
 ## *************************************************************************
-echo ""
-echo "*************************************************************************"
-echo "Deploy application"
-echo "*************************************************************************"
 cd ${DIR_ROOT}
 . ./deploy/bin/app.sh
 
@@ -127,9 +122,6 @@ echo ""
 if [ "$OPT_CLONE_DB"!="yes" ]; then
     echo "Database cloning is skipped."
 else
-    echo "*************************************************************************"
-    echo "Clone DB"
-    echo "*************************************************************************"
     cd ${DIR_ROOT}
     . ./deploy/bin/clone/db/do.sh
 fi
@@ -139,18 +131,11 @@ echo ""
 if [ "$OPT_CLONE_MEDIA"!="yes" ]; then
     echo "Media cloning is skipped."
 else
-    echo "*************************************************************************"
-    echo "Clone media"
-    echo "*************************************************************************"
     cd ${DIR_ROOT}
     . ./deploy/bin/clone/media/do.sh
 fi
 
-
 echo ""
-echo "*************************************************************************"
-echo "Finalize job..."
-echo "*************************************************************************"
 cd ${DIR_ROOT}
 . ./deploy/bin/final.sh
 

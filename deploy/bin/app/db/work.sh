@@ -128,6 +128,11 @@ else
 fi
 
 echo ""
+echo "Additional DB setup."
+MYSQL_EXEC="mysql -u ${DB_USER} --password=${DB_PASS} -D ${DB_NAME} -e "
+${MYSQL_EXEC} "REPLACE INTO core_config_data SET value = '1', path ='fl32_loginas/controls/customers_grid_action'"
+
+echo ""
 echo "************************************************************************"
 echo "  Database initialization is completed."
 echo "************************************************************************"

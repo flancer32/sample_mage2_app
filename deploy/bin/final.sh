@@ -60,25 +60,32 @@ DIR_LINK_LOG=${DIR_LINK_LOG}
 
 
 ## =========================================================================
-#   Magento 2 deployment with Composer.
+#   Mode specific finalization.
 ## =========================================================================
+. ${DIR_DEPLOY}/bin/app/final/${MODE}.sh
 
-# Finalize job
-#
+
+
+echo ""
+echo "************************************************************************"
+echo "  Deployment finalization (common)."
+echo "************************************************************************"
+
 echo ""
 if [ -z "${LOCAL_OWNER}" ] || [ -z "${LOCAL_GROUP}" ] || [ -z "${DIR_MAGE}" ]; then
     echo "Skip file system ownership and permissions setup."
 else
     echo "Set file system ownership (${LOCAL_OWNER}:${LOCAL_GROUP}) and permissions to '${DIR_MAGE}'..."
     chown -R ${LOCAL_OWNER}:${LOCAL_GROUP} ${DIR_MAGE}
-    # setup filesystem permissions
     find ${DIR_MAGE} -type d -exec chmod 770 {} \;
     find ${DIR_MAGE} -type f -exec chmod 660 {} \;
 fi
 
-
+# setup permissions for critical files/folders
+chmod u+x ${DIR_MAGE}/bin/magento
+chmod -R go-w ${DIR_MAGE}/app/etc
 
 echo ""
 echo "************************************************************************"
-echo "  Deployment finalization is complete."
+echo "  Deployment finalization (common) is complete."
 echo "************************************************************************"

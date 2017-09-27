@@ -1,0 +1,17 @@
+Index: vendor/flancer32/sample_mage2_mod_zip/etc/module.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- vendor/flancer32/sample_mage2_mod_zip/etc/module.xml	(revision )
++++ vendor/flancer32/sample_mage2_mod_zip/etc/module.xml	(revision )
+@@ -2,5 +2,8 @@
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+     <module name="Flancer32_SampleZip" setup_version="0.1.0">
++        <sequence>
++            <module name="Flancer32_SampleRepo"/>
++        </sequence>
+     </module>
+ </config>
+\ No newline at end of file

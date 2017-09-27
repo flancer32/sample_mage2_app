@@ -59,6 +59,7 @@ echo "Add custom repositories"
 composer config repositories.local '{"type": "artifact", "url": "../deploy/repo/"}'  # relative to root Mage dir
 
 
+echo ""
 echo "Add own modules"
 # public module from Packagist
 composer require flancer32/mage2_ext_login_as:dev-master
@@ -67,6 +68,11 @@ composer config repositories.sample_repo vcs https://github.com/flancer32/sample
 composer require flancer32/sample_mage2_mod_repo:dev-master
 # add zipped module from local repository (see deploy/repo/sample_mage2_mod_zip-0.1.0.zip)
 composer require flancer32/sample_mage2_mod_zip
+
+
+echo ""
+echo "Apply patches"
+patch vendor/flancer32/sample_mage2_mod_zip/etc/module.xml ${DIR_DEPLOY}/patch/mod_sequence.patch
 
 echo ""
 echo "************************************************************************"
