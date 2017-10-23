@@ -31,13 +31,12 @@ if [ -f "${FILE_CFG}" ]; then
     if [ "${IS_CHAINED}" = "no" ]; then    # this is standalone launch, load deployment configuration;
         echo "There is deployment configuration in ${FILE_CFG}."
         . ${FILE_CFG}
+    # else: deployment configuration should be loaded before
     fi
 else
-    if [ "${IS_CHAINED}" = "no" ]; then    # this is standalone launch w/o deployment configuration - exit;
-        echo "There is no expected configuration in ${FILE_CFG}. Aborting..."
-        cd ${DIR_CUR}
-        exit 255
-    fi
+    echo "There is no expected configuration in ${FILE_CFG}. Aborting..."
+    cd ${DIR_CUR}
+    exit 255
 fi
 
 
@@ -47,7 +46,6 @@ fi
 ## =========================================================================
 
 # Folders shortcuts
-DIR_BIN=${DIR_ROOT}/bin             # folder with deployment templates
 DIR_MAGE=${DIR_ROOT}/${MODE}        # root folder for Magento application
 
 
@@ -62,14 +60,14 @@ OPT_SKIP_DB=${OPT_SKIP_DB}
 ## =========================================================================
 #   Deploy Magento 2 itself.
 ## =========================================================================
-. ${DIR_BIN}/app/mage.sh
+. ${DIR_ROOT}/bin/app/mage.sh
 
 
 
 ## =========================================================================
 #   Deploy custom modules with Composer (according to deploy mode).
 ## =========================================================================
-. ${DIR_BIN}/app/own/${MODE}.sh
+. ${DIR_ROOT}/bin/app/own/${MODE}.sh
 
 
 
@@ -82,7 +80,7 @@ if [ "${OPT_SKIP_DB}" = "yes" ]; then
     echo "  Database initialization is skipped."
     echo "************************************************************************"
 else
-    . ${DIR_BIN}/app/db/${MODE}.sh
+    . ${DIR_ROOT}/bin/app/db/${MODE}.sh
 fi
 
 

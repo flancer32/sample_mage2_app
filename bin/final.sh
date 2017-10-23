@@ -31,13 +31,12 @@ if [ -f "${FILE_CFG}" ]; then
     if [ "${IS_CHAINED}" = "no" ]; then    # this is standalone launch, load deployment configuration;
         echo "There is deployment configuration in ${FILE_CFG}."
         . ${FILE_CFG}
+    # else: deployment configuration should be loaded before
     fi
 else
-    if [ "${IS_CHAINED}" = "no" ]; then    # this is standalone launch w/o deployment configuration - exit;
-        echo "There is no expected configuration in ${FILE_CFG}. Aborting..."
-        cd ${DIR_CUR}
-        exit 255
-    fi
+    echo "There is no expected configuration in ${FILE_CFG}. Aborting..."
+    cd ${DIR_CUR}
+    exit 255
 fi
 
 
