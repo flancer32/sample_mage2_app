@@ -11,7 +11,7 @@
 DIR_CUR="$PWD"
 # Root directory (relative to the current shell script, not to the execution point)
 # http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02
-DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../../" && pwd`}
+DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../" && pwd`}
 
 
 
@@ -47,7 +47,6 @@ fi
 ## =========================================================================
 
 # Folders shortcuts
-DIR_DEPLOY=${DIR_ROOT}/deploy       # folder with deployment templates
 DIR_MAGE=${DIR_ROOT}/${MODE}        # root folder for Magento application
 
 
@@ -63,7 +62,7 @@ DIR_LINK_LOG=${DIR_LINK_LOG}
 #   Mode specific finalization.
 ## =========================================================================
 if [ "${OPT_SKIP_DB}" = "no" ]; then
-. ${DIR_DEPLOY}/bin/app/final/${MODE}.sh
+. ${DIR_ROOT}/bin/app/final/${MODE}.sh
 fi
 
 

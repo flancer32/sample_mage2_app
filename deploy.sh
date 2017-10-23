@@ -105,11 +105,9 @@ BACKEND_FRONTNAME=${BACKEND_FRONTNAME}
 #   Deployment process itself
 ## *************************************************************************
 cd ${DIR_ROOT}
-. ./deploy/bin/app.sh
+. ./bin/app.sh
 
-echo ""
-cd ${DIR_ROOT}
-. ./deploy/bin/final.sh
+. ./bin/final.sh
 
 echo ""
 echo "Application deployment in '${OPT_MODE}' mode  is done."

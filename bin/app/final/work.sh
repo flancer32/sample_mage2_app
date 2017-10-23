@@ -6,7 +6,7 @@
 # current directory where from script was launched (to return to in the end)
 DIR_CUR="$PWD"
 # Root directory (set before or relative to the current shell script)
-DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../../../../" && pwd`}
+DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../../../" && pwd`}
 
 
 

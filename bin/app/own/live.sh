@@ -6,7 +6,7 @@
 # current directory where from script was launched (to return to in the end)
 DIR_CUR="$PWD"
 # Root directory (set before or relative to the current shell script)
-DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../../../../" && pwd`}
+DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../../../" && pwd`}
 
 
 
@@ -42,7 +42,6 @@ fi
 ## =========================================================================
 
 # Folders shortcuts & other vars
-DIR_DEPLOY=${DIR_ROOT}/deploy       # folder with deployment templates
 DIR_MAGE=${DIR_ROOT}/${MODE}        # root folder for Magento application
 
 
@@ -56,7 +55,7 @@ echo "Configure composer.json"
 composer config minimum-stability dev
 
 echo "Add custom repositories"
-composer config repositories.local '{"type": "artifact", "url": "../deploy/repo/"}'  # relative to root Mage dir
+composer config repositories.local '{"type": "artifact", "url": "../repo/"}'  # relative to root Mage dir
 
 
 echo "Add own modules"
