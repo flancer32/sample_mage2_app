@@ -47,7 +47,7 @@ fi
 LOCAL_OWNER=${LOCAL_OWNER}
 LOCAL_GROUP=${LOCAL_GROUP}
 # local environment
-LOGROTATE_CFG=${DIR_ROOT}/deploy/bin/backup/media/logrotate.conf
+LOGROTATE_CFG=${DIR_ROOT}/bin/backup/media/logrotate.conf
 ```
 
 
