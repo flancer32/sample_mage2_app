@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 ## *************************************************************************
-#   Deploy web application (Mage, DB, modules, patches, ...).
+#   Deploy web application (Mage, modules, patches, DB, ...).
 #
 #       This is friendly user script, not user friendly
 #       There are no protection from mistakes.
 #       Use it if you know how it works.
 ## *************************************************************************
-
 # current directory where from script was launched (to return to in the end)
 DIR_CUR="$PWD"
 # Root directory (relative to the current shell script, not to the execution point)
@@ -42,14 +41,11 @@ fi
 
 
 ## =========================================================================
-#   Working variables and hardcoded configuration.
+#   Setup working environment
 ## =========================================================================
-
-# Folders shortcuts
 DIR_MAGE=${DIR_ROOT}/${MODE}        # root folder for Magento application
 
-
-# shortcuts to external vars (see ${FILE_CFG})
+# deployment configuration (see ${FILE_CFG})
 DIR_LINK_LOG=${DIR_LINK_LOG}
 DIR_LINK_MEDIA=${DIR_LINK_MEDIA}
 LOCAL_GROUP=${LOCAL_GROUP}
@@ -57,27 +53,24 @@ LOCAL_OWNER=${LOCAL_OWNER}
 OPT_SKIP_DB=${OPT_SKIP_DB}
 
 
+
 ## =========================================================================
-#   Deploy Magento 2 itself.
+#   Perform processing
 ## =========================================================================
+# Deploy Magento 2 itself
 . ${DIR_ROOT}/bin/app/mage.sh
 
-
-
-## =========================================================================
-#   Deploy custom modules with Composer (according to deploy mode).
-## =========================================================================
+# Deploy custom modules with Composer (according to deploy mode)
 . ${DIR_ROOT}/bin/app/own/${MODE}.sh
 
+# Apply patches to the code.
+. ${DIR_ROOT}/bin/app/patch.sh
 
-
-## =========================================================================
-#   Setup database for the application.
-## =========================================================================
+# Setup database for the application.
 if [ "${OPT_SKIP_DB}" = "yes" ]; then
     echo ""
     echo "************************************************************************"
-    echo "  Database initialization is skipped."
+    echo "  Database initialization is skipped (use Web UI to create DB)."
     echo "************************************************************************"
 else
     . ${DIR_ROOT}/bin/app/db/${MODE}.sh
@@ -89,3 +82,4 @@ echo ""
 echo "************************************************************************"
 echo "  Web application deployment is complete."
 echo "************************************************************************"
+cd ${DIR_CUR}

@@ -2,10 +2,9 @@
 ## *************************************************************************
 #   Deploy Magento 2 itself
 ## *************************************************************************
-
 # current directory where from script was launched (to return to in the end)
 DIR_CUR="$PWD"
-# Root directory (set before or relative to the current shell script)
+# root directory (set before or relative to the current shell script)
 DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../../" && pwd`}
 
 
@@ -37,19 +36,16 @@ fi
 
 
 ## =========================================================================
-#   Working variables and hardcoded configuration.
+#   Setup working environment
 ## =========================================================================
-
-# Folders shortcuts & other vars
 DIR_MAGE=${DIR_ROOT}/${MODE}        # root folder for Magento application
 MODE_WORK="work"
 
 
 
 ## =========================================================================
-#   Prepare working environment.
+#   Perform processing
 ## =========================================================================
-
 # (re)create root folder for application deployment
 if [ -d "${DIR_MAGE}" ]; then
     if [ "${MODE}" = "${MODE_WORK}" ]; then
@@ -62,16 +58,12 @@ else
 fi
 echo "Magento will be installed into the '${DIR_MAGE}' folder."
 
-
-
-
-## =========================================================================
-#   Deploy Magento 2 itself using Composer.
-## =========================================================================
-
+# deploy Magento 2 itself using Composer
 echo ""
 echo "Create M2 CE project in '${DIR_MAGE}' using composer"
-composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.2.0 ${DIR_MAGE}
+composer create-project \
+    --repository-url=https://repo.magento.com/ magento/project-community-edition=^2 \
+    ${DIR_MAGE}
 
 
 
@@ -79,3 +71,4 @@ echo ""
 echo "************************************************************************"
 echo "  Magento 2 code base is deployed."
 echo "************************************************************************"
+cd ${DIR_CUR}

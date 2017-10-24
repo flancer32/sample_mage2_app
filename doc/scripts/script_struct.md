@@ -43,7 +43,7 @@ fi
 ## Setup working environment
 
 ```bash
-# shortcuts to external vars (see ${FILE_CFG})
+# deployment configuration (see ${FILE_CFG})
 LOCAL_OWNER=${LOCAL_OWNER}
 LOCAL_GROUP=${LOCAL_GROUP}
 # local environment

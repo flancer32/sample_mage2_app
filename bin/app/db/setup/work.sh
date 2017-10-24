@@ -1,16 +1,11 @@
 #!/usr/bin/env bash
 ## *************************************************************************
-#   Deployment finalization (filesystem permissions)
-#
-#       This is friendly user script, not user friendly
-#       There are no protection from mistakes.
-#       Use it if you know how it works.
+#   Additional setup for database.
 ## *************************************************************************
 # current directory where from script was launched (to return to in the end)
 DIR_CUR="$PWD"
-# Root directory (relative to the current shell script, not to the execution point)
-# http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02
-DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../" && pwd`}
+# root directory (set before or relative to the current shell script)
+DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../../../../" && pwd`}
 
 
 
@@ -45,14 +40,16 @@ fi
 ## =========================================================================
 DIR_MAGE=${DIR_ROOT}/${MODE}        # root folder for Magento application
 
-# command line arguments
-OPT_SKIP_DB=${OPT_SKIP_DB}
-
 # deployment configuration (see ${FILE_CFG})
-DIR_LINK_LOG=${DIR_LINK_LOG}
-DIR_LINK_MEDIA=${DIR_LINK_MEDIA}
-LOCAL_GROUP=${LOCAL_GROUP}
-LOCAL_OWNER=${LOCAL_OWNER}
+BASE_URL=${BASE_URL}
+DB_HOST=${DB_HOST}
+DB_NAME=${DB_NAME}
+DB_PASS=${DB_PASS}
+DB_PREFIX=${DB_PREFIX}
+DB_USER=${DB_USER}
+
+# this script's shortcuts
+MYSQL_EXEC="mysql -h ${DB_HOST} -u ${DB_USER} --password=${DB_PASS} -D ${DB_NAME} -e "
 
 
 
@@ -61,32 +58,13 @@ LOCAL_OWNER=${LOCAL_OWNER}
 ## =========================================================================
 echo ""
 echo "************************************************************************"
-echo "  Deployment finalization."
+echo "  Additional setup for database."
 echo "************************************************************************"
-# mode specific finalization
-if [ "${OPT_SKIP_DB}" = "no" ]; then
-. ${DIR_ROOT}/bin/final/${MODE}.sh
-fi
-
-# setup permissions to filesystem
-echo ""
-if [ -z "${LOCAL_OWNER}" ] || [ -z "${LOCAL_GROUP}" ] || [ -z "${DIR_MAGE}" ]; then
-    echo "Skip file system ownership and permissions setup."
-else
-    echo "Set file system ownership (${LOCAL_OWNER}:${LOCAL_GROUP}) and permissions to '${DIR_MAGE}'..."
-    chown -R ${LOCAL_OWNER}:${LOCAL_GROUP} ${DIR_MAGE}
-    find ${DIR_MAGE} -type d -exec chmod 770 {} \;
-    find ${DIR_MAGE} -type f -exec chmod 660 {} \;
-fi
-
-# setup permissions for critical files/folders
-chmod u+x ${DIR_MAGE}/bin/magento
-chmod -R go-w ${DIR_MAGE}/app/etc
-
+${MYSQL_EXEC} "REPLACE INTO ${DB_PREFIX}core_config_data SET value = '1', path ='fl32_loginas/controls/customers_grid_action'"
 
 
 echo ""
 echo "************************************************************************"
-echo "  Deployment finalization is complete."
+echo "  Additional setup for database is completed."
 echo "************************************************************************"
 cd ${DIR_CUR}

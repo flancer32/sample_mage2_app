@@ -2,10 +2,9 @@
 ## *************************************************************************
 #   Configure composer.json and install own modules (work mode)
 ## *************************************************************************
-
 # current directory where from script was launched (to return to in the end)
 DIR_CUR="$PWD"
-# Root directory (set before or relative to the current shell script)
+# root directory (set before or relative to the current shell script)
 DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../../../" && pwd`}
 
 
@@ -37,13 +36,15 @@ fi
 
 
 ## =========================================================================
-#   Working variables and hardcoded configuration.
+#   Setup working environment
 ## =========================================================================
-
-# Folders shortcuts & other vars
 DIR_MAGE=${DIR_ROOT}/${MODE}        # root folder for Magento application
 
 
+
+## =========================================================================
+#   Perform processing
+## =========================================================================
 echo ""
 echo "************************************************************************"
 echo "  Custom modules deployment."
@@ -61,6 +62,8 @@ echo "Add own modules"
 composer require flancer32/mage2_ext_login_as   # public module from Packagist
 # TODO: public/private module from GitHub
 # TODO: zipped module from local repository
+
+
 
 echo ""
 echo "************************************************************************"

@@ -6,9 +6,10 @@
 #       There are no protection from mistakes.
 #       Use it if you know how it works.
 ## *************************************************************************
-
-# pin current folder and deployment root folder
+# current directory where from script was launched (to return to in the end)
 DIR_CUR="$PWD"
+# Root directory (relative to the current shell script, not to the execution point)
+# http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02
 DIR_ROOT="$( cd "$( dirname "$0" )" && pwd )"
 
 # default configuration
@@ -24,9 +25,9 @@ MODE_WORK=work
 
 
 
-## *************************************************************************
+## =========================================================================
 #   Parse input options
-## *************************************************************************
+## =========================================================================
 echo ""
 while getopts "d:hm:DEMS" OPTNAME
   do
@@ -57,9 +58,9 @@ echo""
 
 
 
-## *************************************************************************
+## =========================================================================
 #   Print out help
-## *************************************************************************
+## =========================================================================
 if [ "${OPT_CLI_HELP}" = "yes" ]; then
     echo "Magento2 application deployment script."
     echo ""
@@ -69,16 +70,16 @@ if [ "${OPT_CLI_HELP}" = "yes" ]; then
     echo "  -d: Web application deployment mode ([work|live], default: work);"
     echo "  -h: This output;"
     echo "  -m: Magento 2 itself deployment mode ([developer|production], default: developer);"
-    echo "  -E: Existing DB will be used in 'work' mode);"
+    echo "  -E: Existing DB will be used in 'work' mode;"
     echo "  -S: Skip database initialization (Web UI should be used to init DB);"
     exit
 fi
 
 
 
-## *************************************************************************
+## =========================================================================
 #   Validate current deployment mode (work|live)
-## *************************************************************************
+## =========================================================================
 MODE=${MODE_WORK}
 case "${OPT_MODE}" in
     ${MODE_WORK}|${MODE_LIVE})
@@ -97,18 +98,29 @@ else
     exit 255
 fi
 
-# shortcuts to external vars (from ./cfg.${MODE}.sh)
+
+
+## =========================================================================
+#   Setup working environment
+## =========================================================================
+# deployment configuration (see ${FILE_CFG})
 BASE_URL=${BASE_URL}
 BACKEND_FRONTNAME=${BACKEND_FRONTNAME}
 
-## *************************************************************************
-#   Deployment process itself
-## *************************************************************************
-cd ${DIR_ROOT}
-. ./bin/app.sh
 
-. ./bin/final.sh
 
+## =========================================================================
+#   Perform processing
+## =========================================================================
+. ${DIR_ROOT}/bin/app.sh
+. ${DIR_ROOT}/bin/init/${MODE}.sh
+. ${DIR_ROOT}/bin/final.sh
+
+
+
+## =========================================================================
+#   Finalize job
+## =========================================================================
 echo ""
 echo "Application deployment in '${OPT_MODE}' mode  is done."
 echo "  Frontend: ${BASE_URL}"
