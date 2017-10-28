@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-## *************************************************************************
+## =========================================================================
 #   Finalize deployment.
-## *************************************************************************
+## =========================================================================
 # current directory where from script was launched (to return to in the end)
 DIR_CUR="$PWD"
 # root directory (set before or relative to the current shell script)
@@ -9,18 +9,18 @@ DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../../" && pwd`}
 
 
 
-## *************************************************************************
+## =========================================================================
 #   Validate deployment mode and load configuration.
-## *************************************************************************
+## =========================================================================
 MODE=${MODE}
 OPT_MAGE_RUN=${OPT_MAGE_RUN}
 OPT_USE_EXIST_DB=${OPT_USE_EXIST_DB}
 IS_CHAINED="yes"       # 'yes' - this script is launched in chain with other scripts, 'no'- standalone launch;
 if [ -z "${MODE}" ]; then
     MODE="work"
+    IS_CHAINED="no"
     OPT_MAGE_RUN="developer"
     OPT_USE_EXIST_DB="yes"
-    IS_CHAINED="no"
 fi
 
 # check configuration file exists and load deployment config (db connection, Magento installation opts, etc.).
@@ -53,8 +53,9 @@ echo ""
 echo "************************************************************************"
 echo "  '${MODE}' mode deployment finalization."
 echo "************************************************************************"
-cd ${DIR_MAGE}
-
+##
+# !!! apply mode specific patches before finalization routines
+##
 if [ "${OPT_MAGE_RUN}" = "developer" ]; then
 
     php ${DIR_MAGE}/bin/magento deploy:mode:set developer

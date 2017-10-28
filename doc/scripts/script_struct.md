@@ -7,7 +7,7 @@ Shell scripts have the common structure in this sample.
 ```bash
 # current directory where from script was launched (to return to in the end)
 DIR_CUR="$PWD"
-# Root directory (relative to the current shell script, not to the execution point)
+# root directory (relative to the current shell script, not to the execution point)
 # http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02
 DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../../" && pwd`}
 ```

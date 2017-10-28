@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-## *************************************************************************
+## =========================================================================
 #   Application data initialization.
-## *************************************************************************
+## =========================================================================
 # current directory where from script was launched (to return to in the end)
 DIR_CUR="$PWD"
 # root directory (set before or relative to the current shell script)
@@ -9,9 +9,9 @@ DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../../" && pwd`}
 
 
 
-## *************************************************************************
+## =========================================================================
 #   Validate deployment mode and load configuration.
-## *************************************************************************
+## =========================================================================
 MODE=${MODE}
 IS_CHAINED="yes"       # 'yes' - this script is launched in chain with other scripts, 'no'- standalone launch;
 if [ -z "${MODE}" ]; then

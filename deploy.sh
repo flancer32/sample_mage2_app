@@ -1,27 +1,27 @@
 #!/usr/bin/env bash
-## *************************************************************************
+## =========================================================================
 #   Deployment script for Magento 2 based apps.
 #
 #       This is friendly user script, not user friendly
 #       There are no protection from mistakes.
 #       Use it if you know how it works.
-## *************************************************************************
-# current directory where from script was launched (to return to in the end)
+## =========================================================================
+# pin current folder and deployment root folder
 DIR_CUR="$PWD"
-# Root directory (relative to the current shell script, not to the execution point)
+# root directory (relative to the current shell script, not to the execution point)
 # http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02
 DIR_ROOT="$( cd "$( dirname "$0" )" && pwd )"
 
 # default configuration
 OPT_CLI_HELP="no"               # -h print out help
+OPT_MAGE_RUN="developer"        # -m developer|production
+OPT_MODE="work"                 # -d work|live
 OPT_SKIP_DB="no"                # -S
 OPT_USE_EXIST_DB="no"           # -E
-OPT_MAGE_RUN=developer          # -m developer|production
-OPT_MODE=work                   # -d work|live
 
 # Available deployment modes
-MODE_LIVE=live
-MODE_WORK=work
+MODE_LIVE="live"
+MODE_WORK="work"
 
 
 

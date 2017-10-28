@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-## *************************************************************************
+## =========================================================================
 #   Configure composer.json and install own modules (work mode)
-## *************************************************************************
+## =========================================================================
 # current directory where from script was launched (to return to in the end)
 DIR_CUR="$PWD"
 # root directory (set before or relative to the current shell script)
@@ -9,9 +9,9 @@ DIR_ROOT=${DIR_ROOT:=`cd "$( dirname "$0" )/../../../" && pwd`}
 
 
 
-## *************************************************************************
+## =========================================================================
 #   Validate deployment mode and load configuration.
-## *************************************************************************
+## =========================================================================
 MODE=${MODE}
 IS_CHAINED="yes"       # 'yes' - this script is launched in chain with other scripts, 'no'- standalone launch;
 if [ -z "${MODE}" ]; then
@@ -57,7 +57,7 @@ composer config "prefer-stable" true
 
 echo "Add custom repositories"
 composer config repositories.local '{"type": "artifact", "url": "../repo/"}'  # relative to root Mage dir
-# add private/public GitHub repo & install module from this repo
+# add GitHub repo & install module from this repo
 composer config repositories.sample_repo vcs https://github.com/flancer32/sample_mage2_mod_repo
 
 echo ""
@@ -65,6 +65,11 @@ echo "Add own modules (public from Packagist, private from Github, zipped from l
 composer require flancer32/mage2_ext_login_as:dev-master \
     flancer32/sample_mage2_mod_repo:dev-master \
     flancer32/sample_mage2_mod_zip
+
+echo ""
+echo "Create '${DIR_MAGE}/var/log/logging.yaml'"    # (SUPPLZ-195: circular dependency)
+mkdir -p ${DIR_MAGE}/var/log
+sed -e "s|\${DIR_MAGE}|${DIR_MAGE}|g" ${DIR_ROOT}/etc/logging.${MODE}.yaml > ${DIR_MAGE}/var/log/logging.yaml
 
 
 
