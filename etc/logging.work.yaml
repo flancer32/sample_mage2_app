@@ -8,17 +8,17 @@ handlers:
         class: Monolog\Handler\StreamHandler
         level: DEBUG
         formatter: dashed
-        stream: ${DIR_MAGE}var/log/app.log
+        stream: ${DIR_MAGE}/var/log/app.log
     fileDebug:
         class: Monolog\Handler\StreamHandler
         level: DEBUG
         formatter: dashed
-        stream: ${DIR_MAGE}var/log/debug.log
+        stream: ${DIR_MAGE}/var/log/debug.log
     fileSystem:
         class: Monolog\Handler\StreamHandler
         level: INFO
         formatter: dashed
-        stream: ${DIR_MAGE}var/log/system.log
+        stream: ${DIR_MAGE}/var/log/system.log
     email:
         class: Monolog\Handler\NativeMailerHandler
         to:
