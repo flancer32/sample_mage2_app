@@ -59,7 +59,7 @@ echo "************************************************************************"
 if [ "${OPT_MAGE_RUN}" = "developer" ]; then
 
     php ${DIR_MAGE}/bin/magento deploy:mode:set developer
-    php ${DIR_MAGE}/bin/magento cache:disable
+    php ${DIR_MAGE}/bin/magento cache:enable
     php ${DIR_MAGE}/bin/magento setup:di:compile
 
 else
