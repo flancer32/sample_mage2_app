@@ -1,6 +1,7 @@
-/.idea
+/.idea/
 /atlassian-ide-plugin.xml
 /cfg.live.sh
 /cfg.work.sh
-/live
-/work
+/live/
+/tmp/
+/work/
