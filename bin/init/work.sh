@@ -54,13 +54,13 @@ echo "************************************************************************"
 echo "  Application data initialization."
 echo "************************************************************************"
 # init data if new database is created
-if [ "${OPT_USE_EXIST_DB}" = "no" ]; then
+#if [ "${OPT_USE_EXIST_DB}" = "no" ]; then
 
     php ${DIR_MAGE}/bin/magento fl32:init:catalog
     php ${DIR_MAGE}/bin/magento fl32:init:customers
     php ${DIR_MAGE}/bin/magento fl32:init:sales
 
-fi
+#fi
 
 
 
