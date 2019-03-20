@@ -50,8 +50,8 @@ echo ""
 echo "************************************************************************"
 echo "  Apply patches to the code."
 echo "************************************************************************"
-patch ${DIR_MAGE}/vendor/flancer32/sample_mage2_mod_zip/etc/module.xml \
-    ${DIR_ROOT}/patch/mod_sequence.patch
+#patch ${DIR_MAGE}/vendor/flancer32/sample_mage2_mod_zip/etc/module.xml \
+#    ${DIR_ROOT}/patch/mod_sequence.patch
 
 
 

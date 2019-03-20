@@ -58,18 +58,24 @@ composer config "prefer-stable" true
 echo "Add custom repositories"
 composer config repositories.local '{"type": "artifact", "url": "../repo/"}'  # relative to root Mage dir
 # add GitHub repo & install module from this repo
-composer config repositories.sample_repo vcs https://github.com/flancer32/sample_mage2_mod_repo
+composer config repositories.sample_repo vcs https://github.com/flancer32/mage2_ext_grid_column_renderer
+composer config repositories.demo_repo vcs https://github.com/flancer32/mage2_ext_demo_import
 
 echo ""
 echo "Add own modules (public from Packagist, private from Github, zipped from local repo)"
-composer require flancer32/mage2_ext_login_as:dev-master \
-    flancer32/sample_mage2_mod_repo:dev-master \
-    flancer32/sample_mage2_mod_zip
+#composer require flancer32/mage2_ext_login_as:dev-master \
+#    flancer32/sample_mage2_mod_repo:dev-master \
+#    flancer32/sample_mage2_mod_zip
+composer require flancer32/mage2_ext_base:"dev-master as 0.1.0" \
+    flancer32/mage2_ext_login_as:dev-master \
+    flancer32/mage2_ext_grid_column_renderer:dev-master \
+    flancer32/mage2_ext_demo_import:dev-master \
+
 
 echo ""
-echo "Create '${DIR_MAGE}/var/log/logging.yaml'"    # (SUPPLZ-195: circular dependency)
-mkdir -p ${DIR_MAGE}/var/log
-sed -e "s|\${DIR_MAGE}|${DIR_MAGE}|g" ${DIR_ROOT}/etc/logging.${MODE}.yaml > ${DIR_MAGE}/var/log/logging.yaml
+#echo "Create '${DIR_MAGE}/var/log/logging.yaml'"    # (SUPPLZ-195: circular dependency)
+#mkdir -p ${DIR_MAGE}/var/log
+#sed -e "s|\${DIR_MAGE}|${DIR_MAGE}|g" ${DIR_ROOT}/etc/logging.${MODE}.yaml > ${DIR_MAGE}/var/log/logging.yaml
 
 
 
