@@ -66,10 +66,10 @@ echo "Add own modules (public from Packagist, private from Github, zipped from l
 #composer require flancer32/mage2_ext_login_as:dev-master \
 #    flancer32/sample_mage2_mod_repo:dev-master \
 #    flancer32/sample_mage2_mod_zip
-composer require flancer32/mage2_ext_base:"dev-master as 0.1.0" \
-    flancer32/mage2_ext_login_as:dev-master \
-    flancer32/mage2_ext_grid_column_renderer:dev-master \
-    flancer32/mage2_ext_demo_import:dev-master \
+#composer require flancer32/mage2_ext_base:"dev-master as 9.9.9" \
+#    flancer32/mage2_ext_login_as:dev-master \
+#    flancer32/mage2_ext_grid_column_renderer:dev-master \
+#    flancer32/mage2_ext_demo_import:dev-master \
 
 
 echo ""
