@@ -46,3 +46,20 @@ Create deployment configuration (`cfg.work.sh`) using [cfg.init.sh](./cfg.init.s
     USE_SECURE_ADMIN="0"
 
 `live` mode is not allowed yet.
+
+## Apache simple configuration
+
+```
+<VirtualHost *:80>
+        ServerName sample.domen.com
+        ServerAdmin user@email.com
+        DocumentRoot /.../sample_mage2_app/work/pub
+        <Directory /.../sample_mage2_app/work/pub/>
+                AllowOverride All
+                Require all granted
+        </Directory>
+        LogLevel info
+        ErrorLog ${APACHE_LOG_DIR}/sample_error.log
+        CustomLog ${APACHE_LOG_DIR}/sample_access.log combined
+</VirtualHost>
+```
