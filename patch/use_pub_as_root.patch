@@ -1,0 +1,17 @@
+Index: work/app/etc/env.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- work/app/etc/env.php	(date 1586503995545)
++++ work/app/etc/env.php	(date 1586503995545)
+@@ -53,6 +53,9 @@
+             'prefix' => null
+         ]
+     ],
++    'directories' => [
++        'document_root_is_pub' => true
++    ],
+     'cache_types' => [
+         'config' => 1,
+         'layout' => 1,
