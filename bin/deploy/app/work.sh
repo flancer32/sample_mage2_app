@@ -44,13 +44,16 @@ info ""
 info "Add own modules"
 ${PHP_BIN} ${COMPOSER_BIN} ${COMPOSER_FLAGS} require \
   community-engineering/language-lv_lv \
-  etws/magento-language-ru_ru \
+  community-engineering/language-ru_ru \
   flancer32/mage2_ext_bot_sess \
   flancer32/mage2_ext_email_hijack \
   flancer32/mage2_ext_log_api \
   flancer32/mage2_ext_login_as \
   kiwicommerce/module-cron-scheduler \
-  kiwicommerce/module-enhanced-smtp \
+  kiwicommerce/module-enhanced-smtp
+
+info "Upgrade DB data and schema."
+${PHP_BIN} "${DIR_MAGE}/bin/magento" setup:upgrade
 
 info ""
 info "************************************************************************"

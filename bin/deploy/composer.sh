@@ -62,6 +62,8 @@ ${PHP_BIN} ${COMPOSER_BIN} ${COMPOSER_FLAGS} config repositories.local \
 info "    add private 'vcs' repos."
 ${PHP_BIN} ${COMPOSER_BIN} ${COMPOSER_FLAGS} config repositories.magento-l10n.language-lv_LV \
   vcs https://github.com/magento-l10n/language-lv_LV
+${PHP_BIN} ${COMPOSER_BIN} ${COMPOSER_FLAGS} config repositories.magento-l10n.language-ru_RU \
+  vcs https://github.com/magento-l10n/language-ru_RU
 
 #info "    add remote repo 'dist.aheadworks.com'."
 #${PHP_BIN} ${COMPOSER_BIN} ${COMPOSER_FLAGS} config repositories.aheadworks composer https://dist.aheadworks.com/
