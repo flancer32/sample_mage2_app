@@ -7,4 +7,4 @@
 # http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02
 DIR_ROOT="$(cd "$(dirname "$0")" && pwd)"
 git checkout master
-sh "${DIR_ROOT}/deploy/main.sh" -d live -n -i
+sh "${DIR_ROOT}/bin/deploy/main.sh" -d live -n -i
