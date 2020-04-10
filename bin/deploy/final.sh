@@ -29,6 +29,9 @@ fi
 : "${DIR_MAGE:?}"
 : "${LOCAL_GROUP:?}"
 : "${LOCAL_OWNER:?}"
+: "${MODE:?}"
+: "${MODE_LIVE:?}"
+: "${PHP_BIN:?}"
 # local context vars
 
 ## =========================================================================
@@ -46,14 +49,8 @@ ${PHP_BIN} "${DIR_MAGE}/bin/magento" module:disable --clear-static-content \
   Dotdigitalgroup_Chat \
   Temando_Shipping
 
-info "Perorm maintanance tasks according to Magento mode (${OPT_MAGE_RUN})."
-if test "${OPT_MAGE_RUN}" = "developer"; then
-
-  ${PHP_BIN} "${DIR_MAGE}/bin/magento" deploy:mode:set developer
-  ${PHP_BIN} "${DIR_MAGE}/bin/magento" cache:enable
-  ${PHP_BIN} "${DIR_MAGE}/bin/magento" setup:di:compile
-
-else
+info "Perorm maintanance tasks according to deployment mode (${MODE})."
+if test "${MODE}" = "${MODE_LIVE}"; then
 
   info "Adding Redis cache to app config..."
   ${PHP_BIN} "${DIR_MAGE}/bin/magento" setup:config:set -n \
@@ -63,11 +60,18 @@ else
   ${PHP_BIN} "${DIR_MAGE}/bin/magento" cache:enable
   ${PHP_BIN} "${DIR_MAGE}/bin/magento" cache:flush
 
+else
+
+  ${PHP_BIN} "${DIR_MAGE}/bin/magento" deploy:mode:set developer
+  ${PHP_BIN} "${DIR_MAGE}/bin/magento" cache:enable
+  ${PHP_BIN} "${DIR_MAGE}/bin/magento" setup:di:compile
+
 fi
 
 info "Common tasks for all modes."
 ${PHP_BIN} "${DIR_MAGE}/bin/magento" indexer:reindex
 ${PHP_BIN} "${DIR_MAGE}/bin/magento" cron:run
+${PHP_BIN} "${DIR_MAGE}/bin/magento" catalog:images:resize
 
 info "Setup permissions to filesystem."
 info ""
