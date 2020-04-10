@@ -31,6 +31,7 @@ fi
 : "${LOCAL_OWNER:?}"
 : "${MODE:?}"
 : "${MODE_LIVE:?}"
+: "${OPT_DB_DEMO:-no}"
 : "${PHP_BIN:?}"
 # local context vars
 
@@ -71,7 +72,11 @@ fi
 info "Common tasks for all modes."
 ${PHP_BIN} "${DIR_MAGE}/bin/magento" indexer:reindex
 ${PHP_BIN} "${DIR_MAGE}/bin/magento" cron:run
-${PHP_BIN} "${DIR_MAGE}/bin/magento" catalog:images:resize
+
+if test "${OPT_DB_DEMO}" = "yes"; then
+  info "Resize catalog images (sample data install)."
+  ${PHP_BIN} "${DIR_MAGE}/bin/magento" catalog:images:resize
+fi
 
 info "Setup permissions to filesystem."
 info ""
