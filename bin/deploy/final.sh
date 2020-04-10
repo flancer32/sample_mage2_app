@@ -44,11 +44,11 @@ info "  Deployment finalization."
 info "************************************************************************"
 cd "${DIR_ROOT}" || exit 255
 
-info "Disable some Magento modules."
-${PHP_BIN} "${DIR_MAGE}/bin/magento" module:disable --clear-static-content \
-  Dotdigitalgroup_Email \
-  Dotdigitalgroup_Chat \
-  Temando_Shipping
+#info "Disable some Magento modules."
+#${PHP_BIN} "${DIR_MAGE}/bin/magento" module:disable --clear-static-content \
+#  Dotdigitalgroup_Email \
+#  Dotdigitalgroup_Chat \
+#  Temando_Shipping
 
 info "Perorm maintanance tasks according to deployment mode (${MODE})."
 if test "${MODE}" = "${MODE_LIVE}"; then
