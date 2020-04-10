@@ -62,7 +62,7 @@ info "====================================================================="
 info "Start deployment with following options:"
 info "    Application deployment mode:          '${MODE}'"
 info "    Re-create Magento DB:                 '${OPT_DB_NEW}'"
-info "    Fill Magento DB with sample data:     '${OPT_DB_NEW}'"
+info "    Fill Magento DB with sample data:     '${OPT_DB_DEMO}'"
 info "====================================================================="
 
 ## =========================================================================
