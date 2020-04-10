@@ -52,16 +52,16 @@ ${PHP_BIN} ${COMPOSER_BIN} ${COMPOSER_FLAGS} config \
   ${MAGE_REPO_KEY_PUB} \
   ${MAGE_REPO_KEY_PRIV}
 
-#info "    add github OAuth token."
-#${PHP_BIN} ${COMPOSER_BIN} ${COMPOSER_FLAGS} config github-oauth.github.com ${GITHUB_OAUTH_TOKEN}
+info "    add github OAuth token."
+${PHP_BIN} ${COMPOSER_BIN} ${COMPOSER_FLAGS} config github-oauth.github.com ${GITHUB_OAUTH_TOKEN}
 
 info "    add local repo (3rd parties zipped modules)."
 ${PHP_BIN} ${COMPOSER_BIN} ${COMPOSER_FLAGS} config repositories.local \
   '{"type": "artifact", "url": "../repo/"}' # relative to root Mage dir
 
-#info "    add own 'vcs' repos."
-#${PHP_BIN} ${COMPOSER_BIN} ${COMPOSER_FLAGS} config repositories.project \
-#  vcs https://github.com/vendor/project
+info "    add private 'vcs' repos."
+${PHP_BIN} ${COMPOSER_BIN} ${COMPOSER_FLAGS} config repositories.magento-l10n.language-lv_LV \
+  vcs https://github.com/magento-l10n/language-lv_LV
 
 #info "    add remote repo 'dist.aheadworks.com'."
 #${PHP_BIN} ${COMPOSER_BIN} ${COMPOSER_FLAGS} config repositories.aheadworks composer https://dist.aheadworks.com/
