@@ -30,9 +30,13 @@ OPT_MODE="work"   # -d deployment mode: work|live
 while getopts "d:hin" OPTNAME; do
   case "${OPTNAME}" in
   "d") OPT_MODE=${OPTARG} ;;
+  "h") export OPT_CLI_HELP="yes" ;;
   "i") export OPT_DB_DEMO="yes" ;;
   "n") export OPT_DB_NEW="yes" ;;
-  "*") OPT_CLI_HELP="yes" ;;
+  "?")
+    OPT_CLI_HELP="yes"
+    break
+    ;;
   esac
 done
 
@@ -42,12 +46,12 @@ done
 if test "${OPT_CLI_HELP}" = "yes"; then
   echo "Deployment script for Magento2 based application."
   echo ""
-  echo "Usage: sh main.sh -d [work|live] -n"
+  echo "Usage: sh main.sh -d [work|live] -i -n"
   echo ""
   echo "Where:"
   echo "  -d: Deployment mode ([work|live], default: work);"
   echo "  -h: This output;"
-  echo "  -i: Fill Magento DB with demo data;"
+  echo "  -i: Fill Magento DB with demo data (includes '-n');"
   echo "  -n: Re-create Magento DB;"
   exit 0
 fi
@@ -57,6 +61,10 @@ fi
 #   and deployment configuration.
 ## =========================================================================
 . "${DIR_ROOT}/bin/commons.sh" "${OPT_MODE}"
+
+if test "${OPT_DB_DEMO}" = "yes"; then
+  export OPT_DB_NEW="yes"
+fi
 
 info "====================================================================="
 info "Start deployment with following options:"
